@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function ClienteAgendamentos() {
-  const [agendamentos, setAgendamentos] = useState<any[]>([]);
+  const [agendamentos, setAgendamentos] = useState<unknown[]>([]);
   const [erro, setErro] = useState('');
   const router = useRouter();
 
@@ -35,11 +35,11 @@ export default function ClienteAgendamentos() {
             </tr>
           </thead>
           <tbody>
-            {agendamentos.map((a) => (
-              <tr key={a.id} className="border-t">
-                <td className="p-2">{a.servico?.nome}</td>
-                <td className="p-2">{a.barbeiro?.nome}</td>
-                <td className="p-2">{new Date(a.dataHora).toLocaleString('pt-BR')}</td>
+            {agendamentos.map((a: unknown) => (
+              <tr key={(a as any).id} className="border-t">
+                <td className="p-2">{(a as any).servico?.nome}</td>
+                <td className="p-2">{(a as any).barbeiro?.nome}</td>
+                <td className="p-2">{new Date((a as any).dataHora).toLocaleString('pt-BR')}</td>
                 <td className="p-2">
                   {/* Botões de editar/cancelar podem ser implementados */}
                   <button className="text-blue-600 hover:underline mr-2">Editar</button>

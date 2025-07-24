@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function NovoAgendamento() {
-  const [servicos, setServicos] = useState<any[]>([]);
-  const [barbeiros, setBarbeiros] = useState<any[]>([]);
+  const [servicos, setServicos] = useState<unknown[]>([]);
+  const [barbeiros, setBarbeiros] = useState<unknown[]>([]);
   const [servicoId, setServicoId] = useState('');
   const [barbeiroId, setBarbeiroId] = useState('');
   const [dataHora, setDataHora] = useState('');
@@ -19,8 +19,8 @@ export default function NovoAgendamento() {
       .then(res => res.json()).then(data => setBarbeiros(data.barbeiros || []));
   }, []);
 
-  async function agendar(e: any) {
-    e.preventDefault();
+  async function agendar(e: unknown) {
+    (e as React.FormEvent).preventDefault();
     setErro(''); setSucesso('');
     const res = await fetch('/api/cliente/agendamentos', {
       method: 'POST',
@@ -44,14 +44,14 @@ export default function NovoAgendamento() {
           <label className="block text-sm">Serviço</label>
           <select value={servicoId} onChange={e => setServicoId(e.target.value)} className="border p-2 rounded w-full">
             <option value="">Selecione</option>
-            {servicos.map((s: any) => <option key={s.id} value={s.id}>{s.nome}</option>)}
+            {servicos.map((s: unknown) => <option key={(s as any).id} value={(s as any).id}>{(s as any).nome}</option>)}
           </select>
         </div>
         <div>
           <label className="block text-sm">Barbeiro</label>
           <select value={barbeiroId} onChange={e => setBarbeiroId(e.target.value)} className="border p-2 rounded w-full">
             <option value="">Selecione</option>
-            {barbeiros.map((b: any) => <option key={b.id} value={b.id}>{b.nome}</option>)}
+            {barbeiros.map((b: unknown) => <option key={(b as any).id} value={(b as any).id}>{(b as any).nome}</option>)}
           </select>
         </div>
         <div>

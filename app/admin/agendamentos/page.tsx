@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 export default function AdminAgendamentos() {
-  const [agendamentos, setAgendamentos] = useState<any[]>([]);
+  const [agendamentos, setAgendamentos] = useState<unknown[]>([]);
   const [erro, setErro] = useState('');
 
   useEffect(() => {

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 export default function PerfilCliente() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<unknown>(null);
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
   const [sucesso, setSucesso] = useState('');
@@ -21,8 +21,8 @@ export default function PerfilCliente() {
       });
   }, []);
 
-  async function salvar(e: any) {
-    e.preventDefault();
+  async function salvar(e: unknown) {
+    (e as React.FormEvent).preventDefault();
     setErro(''); setSucesso('');
     const res = await fetch('/api/cliente/perfil', {
       method: 'PATCH',
@@ -53,11 +53,11 @@ export default function PerfilCliente() {
         </div>
         <div>
           <label className="block text-sm">CPF</label>
-          <input value={user.cpf} disabled className="border p-2 rounded w-full bg-gray-100" />
+          <input value={(user as any).cpf} disabled className="border p-2 rounded w-full bg-gray-100" />
         </div>
         <div>
           <label className="block text-sm">Nascimento</label>
-          <input value={new Date(user.nascimento).toLocaleDateString('pt-BR')} disabled className="border p-2 rounded w-full bg-gray-100" />
+          <input value={new Date((user as any).nascimento).toLocaleDateString('pt-BR')} disabled className="border p-2 rounded w-full bg-gray-100" />
         </div>
         {erro && <div className="text-red-500">{erro}</div>}
         {sucesso && <div className="text-green-600">{sucesso}</div>}

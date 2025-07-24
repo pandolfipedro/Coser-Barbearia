@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 export default function AdminServicos() {
-  const [servicos, setServicos] = useState<any[]>([]);
+  const [servicos, setServicos] = useState<unknown[]>([]);
   const [nome, setNome] = useState('');
   const [preco, setPreco] = useState('');
   const [erro, setErro] = useState('');
@@ -19,8 +19,8 @@ export default function AdminServicos() {
 
   useEffect(() => { carregar(); }, []);
 
-  async function cadastrar(e: any) {
-    e.preventDefault();
+  async function cadastrar(e: unknown) {
+    (e as React.FormEvent).preventDefault();
     setErro(''); setSucesso('');
     const res = await fetch('/api/admin/servicos', {
       method: 'POST',
@@ -66,12 +66,12 @@ export default function AdminServicos() {
             </tr>
           </thead>
           <tbody>
-            {servicos.map((s) => (
-              <tr key={s.id} className="border-t">
-                <td className="p-2">{s.nome}</td>
-                <td className="p-2">R$ {Number(s.preco).toFixed(2)}</td>
+            {servicos.map((s: unknown) => (
+              <tr key={(s as any).id} className="border-t">
+                <td className="p-2">{(s as any).nome}</td>
+                <td className="p-2">R$ {Number((s as any).preco).toFixed(2)}</td>
                 <td className="p-2">
-                  <button onClick={() => remover(s.id)} className="text-red-600 hover:underline">Remover</button>
+                  <button onClick={() => remover((s as any).id)} className="text-red-600 hover:underline">Remover</button>
                 </td>
               </tr>
             ))}

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 export default function AdminBarbeiros() {
-  const [barbeiros, setBarbeiros] = useState<any[]>([]);
+  const [barbeiros, setBarbeiros] = useState<unknown[]>([]);
   const [nome, setNome] = useState('');
   const [erro, setErro] = useState('');
   const [sucesso, setSucesso] = useState('');
@@ -18,8 +18,8 @@ export default function AdminBarbeiros() {
 
   useEffect(() => { carregar(); }, []);
 
-  async function cadastrar(e: any) {
-    e.preventDefault();
+  async function cadastrar(e: unknown) {
+    (e as React.FormEvent).preventDefault();
     setErro(''); setSucesso('');
     const res = await fetch('/api/admin/barbeiros', {
       method: 'POST',
@@ -63,11 +63,11 @@ export default function AdminBarbeiros() {
             </tr>
           </thead>
           <tbody>
-            {barbeiros.map((b) => (
-              <tr key={b.id} className="border-t">
-                <td className="p-2">{b.nome}</td>
+            {barbeiros.map((b: unknown) => (
+              <tr key={(b as any).id} className="border-t">
+                <td className="p-2">{(b as any).nome}</td>
                 <td className="p-2">
-                  <button onClick={() => remover(b.id)} className="text-red-600 hover:underline">Remover</button>
+                  <button onClick={() => remover((b as any).id)} className="text-red-600 hover:underline">Remover</button>
                 </td>
               </tr>
             ))}
