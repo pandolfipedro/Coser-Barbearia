@@ -35,13 +35,13 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
   try {
-    const agendamento = await prisma.agendamento.findUnique({ where: { id: params.id } });
+    const agendamento = await prisma.agendamento.findUnique({ where: { id: context.params.id } });
     if (!agendamento) {
       return NextResponse.json({ error: 'Agendamento não encontrado.' }, { status: 404 });
     }
-    await prisma.agendamento.delete({ where: { id: params.id } });
+    await prisma.agendamento.delete({ where: { id: context.params.id } });
     return NextResponse.json({ message: 'Agendamento cancelado com sucesso.' });
   } catch (error) {
     return NextResponse.json({ error: 'Erro ao cancelar agendamento.' }, { status: 500 });
