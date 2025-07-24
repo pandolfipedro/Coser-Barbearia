@@ -35,7 +35,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   }
 }
 
-export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, context: any) {
   try {
     const agendamento = await prisma.agendamento.findUnique({ where: { id: context.params.id } });
     if (!agendamento) {
