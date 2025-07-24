@@ -1,10 +1,11 @@
 "use client";
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Barbeiro, Servico } from '../../../types';
 
 export default function NovoAgendamento() {
-  const [servicos, setServicos] = useState<unknown[]>([]);
-  const [barbeiros, setBarbeiros] = useState<unknown[]>([]);
+  const [servicos, setServicos] = useState<Servico[]>([]);
+  const [barbeiros, setBarbeiros] = useState<Barbeiro[]>([]);
   const [servicoId, setServicoId] = useState('');
   const [barbeiroId, setBarbeiroId] = useState('');
   const [dataHora, setDataHora] = useState('');
@@ -44,14 +45,14 @@ export default function NovoAgendamento() {
           <label className="block text-sm">Serviço</label>
           <select value={servicoId} onChange={e => setServicoId(e.target.value)} className="border p-2 rounded w-full">
             <option value="">Selecione</option>
-            {servicos.map((s: unknown) => <option key={(s as any).id} value={(s as any).id}>{(s as any).nome}</option>)}
+            {servicos.map((s) => <option key={s.id} value={s.id}>{s.nome}</option>)}
           </select>
         </div>
         <div>
           <label className="block text-sm">Barbeiro</label>
           <select value={barbeiroId} onChange={e => setBarbeiroId(e.target.value)} className="border p-2 rounded w-full">
             <option value="">Selecione</option>
-            {barbeiros.map((b: unknown) => <option key={(b as any).id} value={(b as any).id}>{(b as any).nome}</option>)}
+            {barbeiros.map((b) => <option key={b.id} value={b.id}>{b.nome}</option>)}
           </select>
         </div>
         <div>

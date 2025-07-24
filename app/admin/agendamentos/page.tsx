@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from 'react';
+import { Agendamento } from '../../types';
 
 export default function AdminAgendamentos() {
-  const [agendamentos, setAgendamentos] = useState<unknown[]>([]);
+  const [agendamentos, setAgendamentos] = useState<Agendamento[]>([]);
   const [erro, setErro] = useState('');
 
   useEffect(() => {

@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from 'react';
+import { Barbeiro } from '../../types';
 
 export default function AdminBarbeiros() {
-  const [barbeiros, setBarbeiros] = useState<unknown[]>([]);
+  const [barbeiros, setBarbeiros] = useState<Barbeiro[]>([]);
   const [nome, setNome] = useState('');
   const [erro, setErro] = useState('');
   const [sucesso, setSucesso] = useState('');
@@ -63,11 +64,11 @@ export default function AdminBarbeiros() {
             </tr>
           </thead>
           <tbody>
-            {barbeiros.map((b: unknown) => (
-              <tr key={(b as any).id} className="border-t">
-                <td className="p-2">{(b as any).nome}</td>
+            {barbeiros.map((b) => (
+              <tr key={b.id} className="border-t">
+                <td className="p-2">{b.nome}</td>
                 <td className="p-2">
-                  <button onClick={() => remover((b as any).id)} className="text-red-600 hover:underline">Remover</button>
+                  <button onClick={() => remover(b.id)} className="text-red-600 hover:underline">Remover</button>
                 </td>
               </tr>
             ))}
