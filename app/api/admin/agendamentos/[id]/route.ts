@@ -3,17 +3,19 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+// Função para extrair o id da URL dinâmica
+function getIdFromRequest(req: NextRequest) {
+  const segments = req.nextUrl.pathname.split('/');
+  return segments[segments.length - 1];
+}
+
 // Atualiza agendamento existente
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function PATCH(req: NextRequest) {
   try {
+    const id = getIdFromRequest(req);
     const { clienteId, servicoId, barbeiroId, dataHora } = await req.json();
 
-    const agendamento = await prisma.agendamento.findUnique({
-      where: { id: params.id },
-    });
+    const agendamento = await prisma.agendamento.findUnique({ where: { id } });
 
     if (!agendamento) {
       return NextResponse.json({ error: 'Agendamento não encontrado.' }, { status: 404 });
@@ -25,7 +27,7 @@ export async function PATCH(
         where: {
           barbeiroId,
           dataHora: new Date(dataHora),
-          NOT: { id: params.id },
+          NOT: { id },
         },
       });
 
@@ -35,7 +37,7 @@ export async function PATCH(
     }
 
     const atualizado = await prisma.agendamento.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         clienteId: clienteId ?? agendamento.clienteId,
         servicoId: servicoId ?? agendamento.servicoId,
@@ -50,28 +52,22 @@ export async function PATCH(
     });
 
     return NextResponse.json({ agendamento: atualizado });
-  } catch {
+  } catch (error) {
     return NextResponse.json({ error: 'Erro ao editar agendamento.' }, { status: 500 });
   }
 }
 
 // Remove agendamento existente
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const { id } = params;
+export async function DELETE(req: NextRequest) {
+  const id = getIdFromRequest(req);
 
   const agendamento = await prisma.agendamento.findUnique({ where: { id } });
 
   if (!agendamento) {
-    return new Response(JSON.stringify({ error: 'Agendamento não encontrado.' }), {
-      status: 404,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return NextResponse.json({ error: 'Agendamento não encontrado.' }, { status: 404 });
   }
 
   await prisma.agendamento.delete({ where: { id } });
 
-  return new Response(null, { status: 204 });
+  return NextResponse.json(null, { status: 204 });
 }
