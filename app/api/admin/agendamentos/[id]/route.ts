@@ -35,7 +35,6 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
   try {
     const agendamento = await prisma.agendamento.findUnique({ where: { id: context.params.id } });
